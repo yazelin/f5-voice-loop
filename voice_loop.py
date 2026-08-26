@@ -24,6 +24,7 @@ import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+from taiwanize import taiwanize_text
 
 HERE = Path(__file__).resolve().parent
 WORK = HERE / "tmp"
@@ -324,7 +325,8 @@ def main():
         if typed_say:
             heard = typed_say
             print(f"測試文字：{heard}")
-            answer = heard
+            answer_display = taiwanize_text(heard, for_speech=False)
+            speech_text = taiwanize_text(heard, for_speech=True)
             stt_time = 0.0
             llm_time = 0.0
         else:
@@ -339,9 +341,11 @@ def main():
                 print("聽不出內容，請再試一次。\n")
                 continue
             t_llm = time.time()
-            answer = ask_llm(heard, state["backend"], state["model"], state["len"], history)
+            raw_answer = ask_llm(heard, state["backend"], state["model"], state["len"], history)
             llm_time = time.time() - t_llm
-            print(f"回答：{answer}（LLM {llm_time:.2f}s）")
+            answer_display = taiwanize_text(raw_answer, for_speech=False)
+            speech_text = taiwanize_text(raw_answer, for_speech=True)
+            print(f"回答：{answer_display}（LLM {llm_time:.2f}s）")
 
         active_ref_wav = state["wav"] or str(in_wav)
         active_ref_text = state["text"] or heard
@@ -351,16 +355,16 @@ def main():
             wav_out, sr, _ = f5.infer(
                 ref_file=active_ref_wav,
                 ref_text=active_ref_text,
-                gen_text=answer,
+                gen_text=speech_text,
                 speed=state["speed"],
             )
             sf.write(str(out_wav), wav_out, sr)
             tts_time = time.time() - t_tts
             audio_sec = len(wav_out) / sr
-            print(f"F5-TTS 合成：{tts_time:.2f}s | 音訊長：{audio_sec:.1f}s | 總耗時：{time.time()-turn_start:.2f}s")
+            print(f"F5-TTS 合成（taiwanize）：{tts_time:.2f}s | 音訊長：{audio_sec:.1f}s | 總耗時：{time.time()-turn_start:.2f}s")
             subprocess.run(["paplay", str(out_wav)])
             if not typed_say:
-                history.append((heard, answer))
+                history.append((heard, answer_display))
             print()
         except Exception as e:
             print(f"F5-TTS 合成失敗: {e}\n")
