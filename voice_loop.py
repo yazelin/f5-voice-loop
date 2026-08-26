@@ -195,8 +195,8 @@ def main():
     print(f"F5-TTS 載入完成（{time.time()-t0:.2f}s）！")
 
     stt = {"url": ensure_whisper_server()}
-    default_asset_wav = HERE / "assets/我的聲音.wav"
-    default_asset_txt = HERE / "assets/我的聲音.txt"
+    default_asset_wav = HERE / "assets/jinn-tiffy-10s.wav"
+    default_asset_txt = HERE / "assets/jinn-tiffy-10s.txt"
 
     ref_wav = None
     ref_text = None
@@ -217,11 +217,11 @@ def main():
             ref_wav = str(p)
             sidecar = p.with_suffix(".txt")
             ref_text = args.voice_text or (sidecar.read_text(encoding="utf-8").strip() if sidecar.exists() else transcribe(p, stt))
-            print(f"載入參考聲音：{ref_wav}\n參考文字：{ref_text}")
+            print(f"載入指定參考聲音：{ref_wav}\n參考文字：{ref_text}")
     elif default_asset_wav.is_file():
         ref_wav = str(default_asset_wav)
         ref_text = default_asset_txt.read_text(encoding="utf-8").strip() if default_asset_txt.is_file() else transcribe(default_asset_wav, stt)
-        print(f"載入預設聲音：{ref_wav}\n參考文字：{ref_text}")
+        print(f"載入預設聲音（Jinn）：{ref_wav}\n參考文字：{ref_text}")
 
     model = args.model or DEFAULT_MODEL[args.backend]
     state = {

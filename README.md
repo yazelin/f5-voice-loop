@@ -28,11 +28,11 @@ bash setup.sh
 
 ### 2. 啟動對話迴圈
 ```bash
-# 預設自動讀取 assets/我的聲音.wav
+# 預設自動載入 Jinn 的聲音（assets/jinn-tiffy-10s.wav）
 ~/CosyVoice/.venv/bin/python voice_loop.py
 
-# 或指定其他聲音樣本
-~/CosyVoice/.venv/bin/python voice_loop.py --voice assets/jinn-tiffy-10s.wav
+# 或指定其他聲音樣本（例如 assets/我的聲音.wav）
+~/CosyVoice/.venv/bin/python voice_loop.py --voice assets/我的聲音.wav
 ```
 
 ### 3. 指令說明
