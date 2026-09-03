@@ -10,9 +10,9 @@
 - 支援 :speed 調節說話語速
 
 跑法：
-  ~/CosyVoice/.venv/bin/python voice_loop.py
-  ~/CosyVoice/.venv/bin/python voice_loop.py --voice assets/我的聲音.wav
-  ~/CosyVoice/.venv/bin/python voice_loop.py --selfcheck
+  ~/voice-venv/bin/python voice_loop.py
+  ~/voice-venv/bin/python voice_loop.py --voice assets/我的聲音.wav
+  ~/voice-venv/bin/python voice_loop.py --selfcheck
 """
 import argparse
 import json

@@ -6,7 +6,7 @@ cd "$HERE"
 
 echo "=== f5-voice-loop 環境準備 ==="
 
-COSY_VENV="${COSYVOICE_VENV:-$HOME/CosyVoice/.venv}"
+COSY_VENV="${COSYVOICE_VENV:-$HOME/voice-venv}"
 
 if [[ ! -f "$COSY_VENV/bin/python" ]]; then
   echo "錯誤：找不到 $COSY_VENV/bin/python，請確認 CosyVoice 環境已建立。"
